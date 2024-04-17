@@ -1,8 +1,10 @@
 const express = require('express')
 const app = express()
 const port = 8080
-
+const cors = require('cors')
 const knex = require('knex')(require('../knexfile.js')["development"])
+
+app.use(cors());
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -12,6 +14,12 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => console.log (`Express server listening on port ${port}`))
+
+app.use('/login', (req, res) => {
+    res.send({
+      token: 'test123'
+    });
+  });
 
 app.get('/items', (req, res) => {
     knex('item_info')
