@@ -5,17 +5,15 @@ import Shelf from './Components/Shelf';
 import Login from './Components/Login';
 import Profiler from './Components/Profile';
 import useToken from './Components/useToken';
-
-const Home = () => (
-  <h1>Here is Home.</h1>
-)
+import Home from './Components/Home';
+import Putting from './Components/Items';
 
 function App() {
     const { token, setToken } = useToken();
   
-    if(!token) {
-      return <Login setToken={setToken} />
-    }
+    // if(!token) {
+    //   return <Login setToken={setToken} />
+    // }
 
   return (
     <Routes>
@@ -23,6 +21,7 @@ function App() {
       <Route path='/shelf' element={<Shelf/>}/>
       <Route path='/login' element={<Login/>}/>
       <Route path='/account_create' element={<Profiler/>} />
+      <Route path='/items' element={<Putting/>}/>
     </Routes>
   );
 }

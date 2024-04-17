@@ -39,6 +39,15 @@ app.get('/user', (req, res) => {
         })
 })
 
+//gets all usernames and passwords
+app.get('/user_creds', (req, res) => {
+    knex('user_info')
+        .select("Username", "Password")
+        .then(user => {
+            res.status(200).json(user)
+        })
+})
+
 app.get('/all_items', (req, res) => {
     knex("item_info")
       .select("*")
@@ -52,6 +61,7 @@ app.get('/all_items', (req, res) => {
       });
   });
 
+  //gets all of an owner's items
   app.get('/owner/:id', (req, res) => {
     knex('item_info')
     .select("Item Name", "Description")
