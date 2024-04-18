@@ -34,7 +34,7 @@ app.get('/user', (req, res) => {
     knex('user_info')
         .select('*')
         .then(user => {
-            var Online = user.map(user => user['First Name'])
+            var Online = user.map(user => user.First_Name)
             res.json(Online)
         })
 })
@@ -79,8 +79,8 @@ app.get('/all_items', (req, res) => {
 
   app.post('/account_creation', (req, res) => {
     let NewAccount = {
-        "First Name": req.body["First Name"],
-        "Last Name":  req.body["Last Name"],
+        First_Name: req.body.First_Name,
+        Last_Name:  req.body.Last_Name,
         Username: req.body.Username,
         Password: req.body.Password
     }
@@ -98,4 +98,38 @@ app.get('/all_items', (req, res) => {
       });
     // console.log(req.body)
     // res.status(201).send('Here it is')
+})
+//detele an account by id
+app.delete('/accounts/:id', (req, res) => {
+    knex('user_info')
+    .select('*')
+    .where({id: `${req.params.id}`})
+    .del()
+    .then((items) => {
+        res.status(200).send({
+            message: "Account as been deleted"
+        });
+    })
+    .catch((err) => {
+        res.status(404).send({
+          message: "Could not delete",
+        });
+    });
+})
+
+app.patch('/items/:id/:quant', (req, res) => {
+    knex('item_info')
+    .select('Quantity')
+    .where({id: `${req.params.id}`})
+    .update({Quantity: `${req.params.quant}`})
+    .then((invent) => {
+        res.status(200).send({
+            message: "Quantity has been updated"
+        })
+    })
+    .catch((err) => {
+        res.status(404).send({
+            message: "Could not update quantity"
+        })
+    })
 })

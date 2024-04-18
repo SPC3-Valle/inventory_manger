@@ -44,7 +44,8 @@ export default function Putting() {
                 return(
                     <div>
                         <p> {data["Item Name"]}</p>
-                        <li> {data.Description} </li> 
+                        <li> {data.Description} </li>
+                        <li> Quantity: {data.Quantity} </li>
                     </div>
                 )
             })}

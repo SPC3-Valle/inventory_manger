@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import App from "../App"
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useToken from "./useToken";
 
 export default function Profiler() {
@@ -8,6 +8,7 @@ export default function Profiler() {
     const [lastname, setLastName] = useState();
     const [username, setUserName] = useState();
     const [password, setPasswordTitle] = useState();
+    const navigate = useNavigate()
 
     function addAccount() {
         // console.log(username)
@@ -15,8 +16,8 @@ export default function Profiler() {
         // console.log(firstname)
         // console.log(lastname)
         const newAccount = {
-            "First Name": firstname,
-            "Last Name": lastname,
+            First_Name: firstname,
+            Last_Name: lastname,
             Username: username,
             Password: password
         }
@@ -25,16 +26,21 @@ export default function Profiler() {
         }
         else{
         console.log(newAccount)
-        fetch('http://localhost:8080/account_creation', {
-        method: "POST",
-        body: JSON.stringify(newAccount)
+        try { 
+            const ace = fetch('http://localhost:8080/account_creation', {
+            method: "POST",
+            body: JSON.stringify(newAccount),
+            headers: {
+                "Content-Type": "application/json",
+            },
         })
-        .then(res => res.json())
-        .then(ret => {
         alert("Account has been created!")
-        })
-        .catch(error => console.log(error))
     }
+    catch(error) {
+    console.log(error)
+    }
+    navigate('/')
+}
     }
 
     return(

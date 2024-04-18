@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import App from "../App"
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
 
 // const Accept = () => {
@@ -21,19 +21,22 @@ async function loginUser(credentials) {
 export default function Login({ setToken }) {
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
+    const navigate = useNavigate()
   
     function Reject() {
         alert("Please try again!")
     }
 
-    async function handleSubmit(e) {
+    const handleSubmit = async e => {
         e.preventDefault();
-        const token = loginUser({
-            username,
-            password
+        const token = await loginUser({
+          username,
+          password
         });
         setToken(token);
-    } 
+        navigate('/')
+      }
+
 //when username and password is found, it sends a success message at the correct position in the array
     function credCheck() {
         console.log(username)
@@ -45,12 +48,13 @@ export default function Login({ setToken }) {
             for(let a = 0; a < accs.length; a++){
             if (accs[a].Username == username && accs[a].Password == password) {
                 console.log("success2")
-                handleSubmit()
+                //handleSubmit()
                 const token = loginUser({
                     username,
                     password
                 });
                 setToken(token)
+                navigate('/')
             }
             else{
                 console.log("failure2") 
@@ -63,7 +67,7 @@ export default function Login({ setToken }) {
     return (
         <div>
             <h3>Enter Username and Password</h3>
-            <form onSubmit={credCheck}>
+            <form onSubmit={handleSubmit}>
                 <div>
                     <label>
                         USERNAME:
